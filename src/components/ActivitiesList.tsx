@@ -62,7 +62,6 @@ const ActivityItem: React.FC<ActivityItemProps> = ({title, description, imageSrc
     );
 };
 
-// Assuming activity data from API has minTemperature, maxTemperature, title, description, imageSrc, imageSrcMobile, and optionally url properties
 interface ActivityFromAPI {
     title: string;
     description: string;

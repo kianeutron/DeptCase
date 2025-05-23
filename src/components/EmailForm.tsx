@@ -9,8 +9,7 @@ const EmailForm = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!email) return;
-
-        // Simulate submit
+        
         setSubmitted(true);
         setTimeout(() => {
             setEmail('');

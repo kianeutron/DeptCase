@@ -1,10 +1,10 @@
 import type {Metadata} from "next";
-import {Lato} from "next/font/google"; // Only import Lato
+import {Lato} from "next/font/google"; 
 import "./globals.css";
 
 // Load only Lato font
 const lato = Lato({
-    weight: ["400", "700"], // Only using weights 400 and 700
+    weight: ["400", "700"], 
     subsets: ["latin"],
     variable: "--font-lato",
 });
