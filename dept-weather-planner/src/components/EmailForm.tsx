@@ -25,15 +25,15 @@ const EmailForm = () => {
         >
             <input
                 type="email"
-                placeholder="Enter your email"
-                className="w-full sm:w-64 p-2 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:text-black placeholder:text-black"
+                placeholder="Enter your email address"
+                className="w-full sm:w-64 p-2 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:text-black placeholder:text-black text-center"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
             />
             <button
                 type="submit"
-                className="px-4 py-2 bg-black text-white rounded-3xl hover:bg-blue-700 transition-colors disabled:opacity-50"
+                className="px-6 py-2 bg-black text-white rounded-3xl hover:bg-blue-700 transition-colors disabled:opacity-50 flex-shrink-0 w-full sm:w-auto"
                 disabled={submitted}
             >
                 {submitted ? 'Subscribed!' : 'Submit'}

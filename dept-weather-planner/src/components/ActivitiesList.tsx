@@ -1,94 +1,134 @@
-import React from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-
-import swimmingImage from '../assets/images/swimming.png';
-import cyclingImage from '../assets/images/cycling.png';
-import beachImage from '../assets/images/beach.png';
-import skatingImage from '../assets/images/skating.png';
-import walkingImage from '../assets/images/walking.png';
-import dartImage from '../assets/images/dart.png';
-
 interface ActivityItemProps {
     title: string;
     description: string;
-    imageSrc: any; 
+    imageSrc: string; 
+    imageSrcMobile: string;
 }
+const ActivityItem: React.FC<ActivityItemProps> = ({ title, description, imageSrc, imageSrcMobile }) => {
+    const [isMobile, setIsMobile] = useState(false);
+    const [imageError, setImageError] = useState(false);
 
-const ActivityItem: React.FC<ActivityItemProps> = ({ title, description, imageSrc }) => {
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 640);
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    const handleImageError = () => {
+        console.error(`Failed to load image: ${isMobile ? imageSrcMobile : imageSrc}`);
+        setImageError(true);
+    };
+
     return (
-        <div className="flex items-center py-4 border-b border-gray-200">
-            {/* Image */}
-            <div className="flex-shrink-0 mr-4">
-                <Image src={imageSrc} alt={title} width={80} height={80} className=" object-cover" />
+        <div className="flex flex-col sm:flex-row items-start py-4 border-b border-gray-200 gap-4 sm:gap-4 last:border-b-0">
+            <div className="w-full sm:w-[80px] flex-shrink-0 sm:mr-4">
+                {!imageError ? (
+                    <Image
+                        src={isMobile ? imageSrcMobile : imageSrc}
+                        alt={title}
+                        width={isMobile ? 320 : 80}
+                        height={isMobile ? 180 : 80}
+                        className="object-cover w-full h-auto sm:w-[80px] sm:h-[80px] rounded-md"
+                        priority={isMobile}
+                        onError={handleImageError}
+                        unoptimized
+                    />
+                ) : (
+                    <div className="w-full h-[180px] sm:w-[80px] sm:h-[80px] bg-gray-200 rounded-md flex items-center justify-center">
+                        <span className="text-gray-500 text-sm">Image not available</span>
+                    </div>
+                )}
             </div>
 
-            {/* Text Content */}
             <div className="flex flex-col">
-                {/* Title */}
                 <h3 className="text-xl font-semibold text-gray-800 mb-1 text-left">{title}</h3>
-
-                {/* Description */}
                 <p className="text-sm text-gray-600 text-left">{description}</p>
             </div>
         </div>
     );
 };
 
-const activities = {
-    couldDo: [
-        {
-            title: "Swimming",
-            description: "In recreation and sports, the propulsion of the body through water by combined arm and leg motions.",
-            imageSrc: swimmingImage,
-        },
-        {
-            title: "Cycling",
-            description: "A sustainable and exhilarating way to explore the world on two wheels. It's a great way to exercise.",
-            imageSrc: cyclingImage,
-        },
-        {
-            title: "Go to the beach",
-            description: "Where sun, sand, and waves create the perfect setting for relaxation, tanning, and fun.",
-            imageSrc: beachImage,
-        },
-    ],
-    shouldNotDo: [
-        {
-            title: "Ice skating",
-            description: "Gliding gracefully or spinning with joy on a frozen canvas of ice. Heerenveen is the place to be!",
-            imageSrc: skatingImage,
-        },
-        {
-            title: "Walking",
-            description: "A simple and natural exercise that connects us to the world, rejuvenates the mind, and nourishes the body.",
-            imageSrc: walkingImage,
-        },
-        {
-            title: "Darts",
-            description: "Precision, focus, and camaraderie combined in a game of skill and strategy. It's crazy.",
-            imageSrc: dartImage,
-        },
-    ],
-};
+// Assuming activity data from API has minTemperature, maxTemperature, title, description, imageSrc, imageSrcMobile, and optionally url properties
+interface ActivityFromAPI {
+    title: string;
+    description: string;
+    imageSrc: string; 
+    imageSrcMobile: string; 
+    minTemperature: number;
+    maxTemperature: number;
+    url?: string; 
+}
 
-const ActivitiesList: React.FC = () => {
+interface ActivitiesListProps {
+    activities: ActivityFromAPI[]; 
+    currentTemperature: number | null; 
+}
+
+const ActivitiesList: React.FC<ActivitiesListProps> = ({ activities, currentTemperature }) => {
+    const activitiesArray = activities || [];
+    
+    const couldDoActivities = activitiesArray.filter(activity => 
+        currentTemperature !== null &&
+        currentTemperature >= activity.minTemperature &&
+        currentTemperature <= activity.maxTemperature
+    );
+
+    const shouldNotDoActivities = activitiesArray.filter(activity => 
+        currentTemperature !== null &&
+        (currentTemperature < activity.minTemperature || currentTemperature > activity.maxTemperature)
+    );
+
     return (
-        <div className="flex flex-col gap-6 p-6">
+        <div className="flex flex-col gap-6 p-0">
             {/* Could Do Section */}
-            <h2 className="text-2xl font-bold text-gray-800">Some things you could do:</h2>
-            <div className="flex flex-col">
-                {activities.couldDo.map((activity, index) => (
-                    <ActivityItem key={index} {...activity} />
-                ))}
-            </div>
+             {couldDoActivities.length > 0 && (
+                 <>
+                     <h2 className="text-2xl font-bold text-gray-800">Some things you could do:</h2>
+                     <div className="flex flex-col">
+                         {couldDoActivities.map((activity, index) => {
+                             return (
+                                 <ActivityItem 
+                                     key={index} 
+                                     title={activity.title} 
+                                     description={activity.description} 
+                                     imageSrc={activity.imageSrc} 
+                                     imageSrcMobile={activity.imageSrcMobile} 
+                                 />
+                             );
+                         })}
+                     </div>
+                 </>
+             )}
 
             {/* Should Not Do Section */}
-            <h2 className="text-2xl font-bold text-gray-800 mt-6">Some things you should not do:</h2>
-            <div className="flex flex-col">
-                {activities.shouldNotDo.map((activity, index) => (
-                    <ActivityItem key={index} {...activity} />
-                ))}
-            </div>
+            {shouldNotDoActivities.length > 0 && (
+                <>
+                    <h2 className={`text-2xl font-bold text-gray-800 ${couldDoActivities.length > 0 ? 'mt-6' : ''}`}>Some things you should not do:</h2>
+                    <div className="flex flex-col">
+                        {shouldNotDoActivities.map((activity, index) => {
+                            return (
+                                <ActivityItem 
+                                    key={index} 
+                                    title={activity.title} 
+                                    description={activity.description} 
+                                    imageSrc={activity.imageSrc} 
+                                    imageSrcMobile={activity.imageSrcMobile} 
+                                />
+                            );
+                        })}
+                    </div>
+                </>
+            )}
         </div>
     );
 };
