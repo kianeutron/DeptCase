@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import {NextResponse} from 'next/server';
 
 const activities = [
     {
@@ -6,8 +6,8 @@ const activities = [
         description: "In recreation and sports, the propulsion of the body through water by combined arm and leg motions.",
         imageSrc: "/images/swimming.png",
         imageSrcMobile: "/images/mobile/swimming.png",
-        minTemperature: 20, 
-        maxTemperature: 30, 
+        minTemperature: 20,
+        maxTemperature: 30,
         url: "#"
     },
     {
@@ -15,8 +15,8 @@ const activities = [
         description: "A sustainable and exhilarating way to explore the world on two wheels. It's a great way to exercise.",
         imageSrc: "/images/cycling.png",
         imageSrcMobile: "/images/mobile/cycling.png",
-        minTemperature: 10, 
-        maxTemperature: 25, 
+        minTemperature: 10,
+        maxTemperature: 25,
         url: "#"
     },
     {
@@ -24,8 +24,8 @@ const activities = [
         description: "Where sun, sand, and waves create the perfect setting for relaxation, tanning, and fun.",
         imageSrc: "/images/beach.png",
         imageSrcMobile: "/images/mobile/beach.png",
-        minTemperature: 22, 
-        maxTemperature: 35, 
+        minTemperature: 22,
+        maxTemperature: 35,
         url: "#"
     },
     {
@@ -33,8 +33,8 @@ const activities = [
         description: "Gliding gracefully or spinning with joy on a frozen canvas of ice. Heerenveen is the place to be!",
         imageSrc: "/images/skating.png",
         imageSrcMobile: "/images/mobile/skating.png",
-        minTemperature: -10, 
-        maxTemperature: 5,  
+        minTemperature: -10,
+        maxTemperature: 5,
         url: "#"
     },
     {
@@ -42,8 +42,8 @@ const activities = [
         description: "A simple and natural exercise that connects us to the world, rejuvenates the mind, and nourishes the body.",
         imageSrc: "/images/walking.png",
         imageSrcMobile: "/images/mobile/walking.png",
-        minTemperature: 5, 
-        maxTemperature: 20, 
+        minTemperature: 5,
+        maxTemperature: 20,
         url: "#"
     },
     {
@@ -51,12 +51,12 @@ const activities = [
         description: "Precision, focus, and camaraderie combined in a game of skill and strategy. It's crazy.",
         imageSrc: "/images/dart.png",
         imageSrcMobile: "/images/mobile/dart.png",
-        minTemperature: 15, 
-        maxTemperature: 30, 
+        minTemperature: 15,
+        maxTemperature: 30,
         url: "#"
     },
 ];
 
 export async function GET() {
-  return NextResponse.json(activities);
+    return NextResponse.json(activities);
 } 

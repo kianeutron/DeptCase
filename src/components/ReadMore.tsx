@@ -1,16 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import {useState} from 'react';
 
 interface ReadMoreProps {
     text: string;
     maxLength?: number;
 }
 
-const ReadMore = ({ text, maxLength = 150 }: ReadMoreProps) => {
+const ReadMore = ({text, maxLength = 150}: ReadMoreProps) => {
     const [expanded, setExpanded] = useState(false);
 
-    const cleanText = text.trim(); 
+    const cleanText = text.trim();
 
     if (cleanText.length <= maxLength) {
         return <p className="text-base text-gray-700 dark:text-gray-300">{cleanText}</p>;

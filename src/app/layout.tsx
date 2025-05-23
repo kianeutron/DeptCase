@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Lato } from "next/font/google"; // Only import Lato
+import type {Metadata} from "next";
+import {Lato} from "next/font/google"; // Only import Lato
 import "./globals.css";
 
 // Load only Lato font

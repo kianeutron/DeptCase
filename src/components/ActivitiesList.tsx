@@ -1,13 +1,15 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import Image from 'next/image';
+
 interface ActivityItemProps {
     title: string;
     description: string;
-    imageSrc: string; 
+    imageSrc: string;
     imageSrcMobile: string;
 }
-const ActivityItem: React.FC<ActivityItemProps> = ({ title, description, imageSrc, imageSrcMobile }) => {
+
+const ActivityItem: React.FC<ActivityItemProps> = ({title, description, imageSrc, imageSrcMobile}) => {
     const [isMobile, setIsMobile] = useState(false);
     const [imageError, setImageError] = useState(false);
 
@@ -30,7 +32,8 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ title, description, imageSr
     };
 
     return (
-        <div className="flex flex-col sm:flex-row items-start py-4 border-b border-gray-200 gap-4 sm:gap-4 last:border-b-0">
+        <div
+            className="flex flex-col sm:flex-row items-start py-4 border-b border-gray-200 gap-4 sm:gap-4 last:border-b-0">
             <div className="w-full sm:w-[80px] flex-shrink-0 sm:mr-4">
                 {!imageError ? (
                     <Image
@@ -44,7 +47,8 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ title, description, imageSr
                         unoptimized
                     />
                 ) : (
-                    <div className="w-full h-[180px] sm:w-[80px] sm:h-[80px] bg-gray-200 rounded-md flex items-center justify-center">
+                    <div
+                        className="w-full h-[180px] sm:w-[80px] sm:h-[80px] bg-gray-200 rounded-md flex items-center justify-center">
                         <span className="text-gray-500 text-sm">Image not available</span>
                     </div>
                 )}
@@ -62,28 +66,28 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ title, description, imageSr
 interface ActivityFromAPI {
     title: string;
     description: string;
-    imageSrc: string; 
-    imageSrcMobile: string; 
+    imageSrc: string;
+    imageSrcMobile: string;
     minTemperature: number;
     maxTemperature: number;
-    url?: string; 
+    url?: string;
 }
 
 interface ActivitiesListProps {
-    activities: ActivityFromAPI[]; 
-    currentTemperature: number | null; 
+    activities: ActivityFromAPI[];
+    currentTemperature: number | null;
 }
 
-const ActivitiesList: React.FC<ActivitiesListProps> = ({ activities, currentTemperature }) => {
+const ActivitiesList: React.FC<ActivitiesListProps> = ({activities, currentTemperature}) => {
     const activitiesArray = activities || [];
-    
-    const couldDoActivities = activitiesArray.filter(activity => 
+
+    const couldDoActivities = activitiesArray.filter(activity =>
         currentTemperature !== null &&
         currentTemperature >= activity.minTemperature &&
         currentTemperature <= activity.maxTemperature
     );
 
-    const shouldNotDoActivities = activitiesArray.filter(activity => 
+    const shouldNotDoActivities = activitiesArray.filter(activity =>
         currentTemperature !== null &&
         (currentTemperature < activity.minTemperature || currentTemperature > activity.maxTemperature)
     );
@@ -91,38 +95,39 @@ const ActivitiesList: React.FC<ActivitiesListProps> = ({ activities, currentTemp
     return (
         <div className="flex flex-col gap-6 p-0">
             {/* Could Do Section */}
-             {couldDoActivities.length > 0 && (
-                 <>
-                     <h2 className="text-2xl font-bold text-gray-800">Some things you could do:</h2>
-                     <div className="flex flex-col">
-                         {couldDoActivities.map((activity, index) => {
-                             return (
-                                 <ActivityItem 
-                                     key={index} 
-                                     title={activity.title} 
-                                     description={activity.description} 
-                                     imageSrc={activity.imageSrc} 
-                                     imageSrcMobile={activity.imageSrcMobile} 
-                                 />
-                             );
-                         })}
-                     </div>
-                 </>
-             )}
+            {couldDoActivities.length > 0 && (
+                <>
+                    <h2 className="text-2xl font-bold text-gray-800">Some things you could do:</h2>
+                    <div className="flex flex-col">
+                        {couldDoActivities.map((activity, index) => {
+                            return (
+                                <ActivityItem
+                                    key={index}
+                                    title={activity.title}
+                                    description={activity.description}
+                                    imageSrc={activity.imageSrc}
+                                    imageSrcMobile={activity.imageSrcMobile}
+                                />
+                            );
+                        })}
+                    </div>
+                </>
+            )}
 
             {/* Should Not Do Section */}
             {shouldNotDoActivities.length > 0 && (
                 <>
-                    <h2 className={`text-2xl font-bold text-gray-800 ${couldDoActivities.length > 0 ? 'mt-6' : ''}`}>Some things you should not do:</h2>
+                    <h2 className={`text-2xl font-bold text-gray-800 ${couldDoActivities.length > 0 ? 'mt-6' : ''}`}>Some
+                        things you should not do:</h2>
                     <div className="flex flex-col">
                         {shouldNotDoActivities.map((activity, index) => {
                             return (
-                                <ActivityItem 
-                                    key={index} 
-                                    title={activity.title} 
-                                    description={activity.description} 
-                                    imageSrc={activity.imageSrc} 
-                                    imageSrcMobile={activity.imageSrcMobile} 
+                                <ActivityItem
+                                    key={index}
+                                    title={activity.title}
+                                    description={activity.description}
+                                    imageSrc={activity.imageSrc}
+                                    imageSrcMobile={activity.imageSrcMobile}
                                 />
                             );
                         })}
