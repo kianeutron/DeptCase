@@ -90,7 +90,7 @@ export default function Home() {
                                 <p className="text-base text-gray-700 dark:text-gray-300 mb-4">
                                     {firstParagraph}
                                 </p>
-                                <ReadMore text={secondParagraph} maxLength={150} />
+                                <ReadMore text={secondParagraph} maxLength={0} />
                             </div>
                         </div>
                     </div>

@@ -38,7 +38,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ title, description, imageSr
                         alt={title}
                         width={isMobile ? 320 : 80}
                         height={isMobile ? 180 : 80}
-                        className="object-cover w-full h-auto sm:w-[80px] sm:h-[80px] rounded-md"
+                        className="object-cover w-full h-auto sm:w-[80px] sm:h-[80px]"
                         priority={isMobile}
                         onError={handleImageError}
                         unoptimized
